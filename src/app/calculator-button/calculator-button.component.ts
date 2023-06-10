@@ -7,7 +7,7 @@ import { Component, HostListener } from '@angular/core';
 })
 export class CalculatorButtonComponent 
 {
-  outputs: string = "";
+  output: string = "";
   calcButtons: string[] = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "/", "*", "-", "+", ","];
   
   @HostListener('document:keypress', ['$event'])
@@ -16,7 +16,7 @@ export class CalculatorButtonComponent
     console.log(event.key);
     if(event.key === "Enter")
     {
-      console.log("ENTER");
+      this.calculation();
     }
     else
     {
@@ -35,52 +35,96 @@ export class CalculatorButtonComponent
   {
     if(event.key === "Backspace")
     {
-      console.log("Backspace");
+      this.clearList();
     }
   }
 
   clickButton(buttonValue: string)
   {
-    this.outputs += buttonValue;
+    this.output += buttonValue;
   }
 
   calculation()
   {
-    let text: string = "5*5"; 
+    let text: string = this.output; 
     let tempText: string = "";
     let newText: string[] = [];
     let op: string[] = ["+", "-", "/", "*"];
+    let numb: number | undefined = 0;
 
-    for(let i = 0; i < text.length; i++)
+    if(text === "")
     {
-      if(op.includes(text[i]))
+      text = "0";
+    }
+    else
+    {
+      for(let i = 0; i < text.length; i++)
+      {
+        if(op.includes(text[i]))
+          {
+            tempText += "@"+text[i]+"@";
+          }
+          else
+          {
+            tempText += text[i];
+          }
+      }
+      newText = tempText.split('@', text.length);
+
+      let i = 0;
+      while(i < newText.length)
+      {
+        if(newText[i] === "+")
         {
-          tempText += "@"+text[i]+"@";
+          let first = +newText.splice(i - 1, 1);
+          newText.splice(i - 1, 1);
+          let second = +newText.splice(i - 1, 1);
+          numb = first + second;
+          newText.unshift(numb.toString());
+          i = 0;
+        }
+        if(newText[i] === "-")
+        {
+          let first = +newText.splice(i - 1, 1);
+          newText.splice(i - 1, 1);
+          let second = +newText.splice(i - 1, 1);
+          numb = first - second;
+          newText.unshift(numb.toString());
+          i = 0;
+        }
+        if(newText[i] === "*")
+        {
+          console.log(newText);
+          let first = +newText.splice(i - 1, 1);
+          newText.splice(i - 1, 1);
+          let second = +newText.splice(i - 1, 1);
+          numb = first * second;
+          newText.unshift(numb.toString());
+          i = 0;
+        }
+        if(newText[i] === "/")
+        {
+          let first = +newText.splice(i - 1, 1);
+          newText.splice(i - 1, 1);
+          let second = +newText.splice(i - 1, 1);
+          numb = first / second;
+          newText.unshift(numb.toString());
+          i = 0;
         }
         else
         {
-          tempText += text[i];
+          i++;
         }
+      }
     }
-
-    newText = tempText.split('@', 3);
     console.log(newText);
-    let i = 0;
-    while(i < newText.length)
-    {
-      if(newText[i] === "*")
-      {
-        let first = +newText.splice(i - 1, 1);
-        newText.splice(i - 1, 1);
-        let second = +newText.splice(i - 1, 1);
-        let numb = first * second;
-        newText.push(numb.toString());
-        i = 0;
-      }
-      else
-      {
-        i++;
-      }
-    }
+    newText = [];
+    tempText = "";
+    this.output = numb.toString();
+  }
+
+  clearList()
+  {
+    this.output = "0";
   }
 }
