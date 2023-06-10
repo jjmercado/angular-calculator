@@ -1,14 +1,19 @@
 .grid-container
 {
+    box-sizing: border-box;
     display: grid;
-    grid-template-columns: auto auto auto auto;
-    grid-template-rows: 150px 150px 150px 150px 150px 150px;
+    grid-template-columns: 156px 156px 156px 156px;
+    grid-template-rows: 100px 100px 100px 100px 100px 100px;
     column-gap: 5px;
     row-gap: 5px;
+    width: 100%;
+    padding: 5px;
 }
 
 .grid-item-output
 {
+    box-sizing: border-box;
+    width: 100%;
     grid-column-start: 1;
     grid-column-end: 5;
     text-align: right;
@@ -16,6 +21,13 @@
     background-color: darkgray;
     color: white;
     border: 2px solid gray;
+}
+
+.grid-item
+{
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0px auto;
 }
 
 button
@@ -34,6 +46,11 @@ button:hover
 {
     background-color: white;
     color: darkgray;
+}
+
+button:active
+{
+    border: 2px solid black;
 }
 
 p
