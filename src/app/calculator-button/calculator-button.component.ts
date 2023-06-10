@@ -7,7 +7,7 @@ import { Component, HostListener } from '@angular/core';
 })
 export class CalculatorButtonComponent 
 {
-  outputs: string[] = [];
+  outputs: string = "";
   calcButtons: string[] = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "/", "*", "-", "+", ","];
   
   @HostListener('document:keypress', ['$event'])
@@ -41,11 +41,46 @@ export class CalculatorButtonComponent
 
   clickButton(buttonValue: string)
   {
-    this.outputs.push(buttonValue);
+    this.outputs += buttonValue;
   }
 
-  calculation(output: string[])
+  calculation()
   {
+    let text: string = "5*5"; 
+    let tempText: string = "";
+    let newText: string[] = [];
+    let op: string[] = ["+", "-", "/", "*"];
 
+    for(let i = 0; i < text.length; i++)
+    {
+      if(op.includes(text[i]))
+        {
+          tempText += "@"+text[i]+"@";
+        }
+        else
+        {
+          tempText += text[i];
+        }
+    }
+
+    newText = tempText.split('@', 3);
+    console.log(newText);
+    let i = 0;
+    while(i < newText.length)
+    {
+      if(newText[i] === "*")
+      {
+        let first = +newText.splice(i - 1, 1);
+        newText.splice(i - 1, 1);
+        let second = +newText.splice(i - 1, 1);
+        let numb = first * second;
+        newText.push(numb.toString());
+        i = 0;
+      }
+      else
+      {
+        i++;
+      }
+    }
   }
 }

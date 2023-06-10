@@ -1,5 +1,5 @@
 <div class="grid-container">
-    <div class="grid-item-output"><p *ngFor="let output of outputs">{{output}}</p></div>
+    <div class="grid-item-output"><p>{{outputs}}</p></div>
     <div class="grid-item"><button>C</button></div>
     <div class="grid-item" ><button>()</button></div>
     <div class="grid-item"><button>%</button></div>
@@ -19,5 +19,5 @@
     <div class="grid-item"><button>+/-</button></div>
     <div class="grid-item"><button (click)="clickButton('0')">0</button></div>
     <div class="grid-item"><button (click)="clickButton(',')">,</button></div>
-    <div class="grid-item"><button>=</button></div>
+    <div class="grid-item"><button (click)="calculation()">=</button></div>
 </div>
