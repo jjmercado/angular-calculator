@@ -7,7 +7,7 @@ import { Component, HostListener } from '@angular/core';
 })
 export class CalculatorButtonComponent 
 {
-  output: string = "";
+  output: string = "0";
   calcButtons: string[] = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "/", "*", "-", "+", ","];
   
   @HostListener('document:keypress', ['$event'])
@@ -20,6 +20,10 @@ export class CalculatorButtonComponent
     }
     else
     {
+      while(this.output.charAt(0) === "0")
+      {
+        this.output = this.output.substring(1);
+      }
       this.calcButtons.forEach(element => 
         {
           if (event.key === element) 
@@ -74,7 +78,7 @@ export class CalculatorButtonComponent
       let i = 0;
       while(i < newText.length)
       {
-        if(newText[i] === "+")
+        if(newText[i] === op[0])
         {
           let first = +newText.splice(i - 1, 1);
           newText.splice(i - 1, 1);
@@ -83,7 +87,7 @@ export class CalculatorButtonComponent
           newText.unshift(numb.toString());
           i = 0;
         }
-        if(newText[i] === "-")
+        else if(newText[i] === "-")
         {
           let first = +newText.splice(i - 1, 1);
           newText.splice(i - 1, 1);
@@ -92,7 +96,7 @@ export class CalculatorButtonComponent
           newText.unshift(numb.toString());
           i = 0;
         }
-        if(newText[i] === "*")
+        else if(newText[i] === "*")
         {
           console.log(newText);
           let first = +newText.splice(i - 1, 1);
@@ -102,7 +106,7 @@ export class CalculatorButtonComponent
           newText.unshift(numb.toString());
           i = 0;
         }
-        if(newText[i] === "/")
+        else if(newText[i] === "/")
         {
           let first = +newText.splice(i - 1, 1);
           newText.splice(i - 1, 1);
